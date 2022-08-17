@@ -1,0 +1,41 @@
+{
+  "name": "wal-table-pagination",
+  "author": "victor jiang",
+  "private": false,
+  "version": "1.0.1",
+  "description": "基于element-plus实现的table带分页组件",
+  "license": "MIT",
+  "homepage": "https://github.com/JZH189/wal-table-pagination#README.md",
+  "keywords": [
+    "vue3",
+    "element-plus",
+    "table",
+    "pagination"
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/wal-table-pagination.umd.js",
+  "module": "lib/wal-table-pagination.es.js",
+  "exports": {
+    "./lib/style.css": "./lib/style.css",
+    ".": {
+      "import": "./lib/wal-table-pagination.es.js",
+      "require": "./lib/wal-table-pagination.umd.js"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "element-plus": "^2.2.13",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.3",
+    "vite": "^3.0.7"
+  }
+}
