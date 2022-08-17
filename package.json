@@ -2,7 +2,7 @@
   "name": "wal-table-pagination",
   "author": "victor jiang",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "基于element-plus实现的table带分页组件",
   "license": "MIT",
   "homepage": "https://github.com/JZH189/wal-table-pagination#README.md",
