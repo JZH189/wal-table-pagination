@@ -1,7 +1,7 @@
 # 简介
-el-table-pagination 是基于element-plus 的 el-table 和 el-pagination组件的基础上进行开发的。并且组件的 api 达到了 99% 接近 el-table 和 el-pagination的使用方式 。一句话概括就是只要你会用element-plus的 table 和 pagination 组件就会用 el-table-pagination 组件！这样做的好处是帮你减少了上手 api 的理解负担。
+wal-table-pagination 是基于element-plus 的 el-table 和 el-pagination组件的基础上进行开发的。并且组件的 api 达到了 99% 接近 el-table 和 el-pagination的使用方式 。一句话概括就是只要你会用element-plus的 table 和 pagination 组件就会用 wal-table-pagination 组件！这样做的好处是帮你减少了上手 api 的理解负担。
 
-在使用 WalTablePagination 组件时以下三个 props 必传：
+在使用 wal-table-pagination 组件时以下三个 props 必传：
 
 - data: 渲染表格的数据
 - currentPage：显示当前分页
