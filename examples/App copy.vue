@@ -11,6 +11,7 @@
     :data="tableData"
     :total="pagination.total"
     :current-page="pagination.currentPage"
+    @filter-change="handleFilterChange"
     @selection-change="handleSelectionChange"
     @size-change="handleSizeChange"
     @pagination-current-change="handlePaginationCurrentChange"
@@ -18,7 +19,18 @@
     <el-table-column type="selection" fixed="left" width="80px" />
     <el-table-column prop="date" label="Date" min-width="200px" />
     <el-table-column prop="name" label="Name" min-width="200px" />
-    <el-table-column prop="address" label="Address" min-width="300px" />
+    <el-table-column prop="address" label="Address" min-width="300px">
+      <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' },
+                { text: 'Peter Docter', value: 'Peter Docter' },
+                { text: 'Andrew Stanton', value: 'Andrew Stanton' }
+              ]"
+              :filter-method="filterMethod"
+              label="导演" />
+    </el-table-column>
     <el-table-column label="Operations" fixed="right" min-width="100px">
       <template #default="{ row }">
         <el-button size="small" type="primary" @click="handleEdit(row)">编辑</el-button>
@@ -28,7 +40,7 @@
 </template>
 
 <script setup>
-import { ElButton, ElTableColumn } from "element-plus";
+import { ElButton, ElTableColumn, ElTable } from "element-plus";
 import WalTablePagination from '../packages/wal-table-pagination/src/wal-table-pagination.vue'
 import { reactive, ref, onMounted} from 'vue'
 //WaltablePagination实例
@@ -81,6 +93,13 @@ function fetchData() {
       address: `No. ${++index + pagination.pageSize*(pagination.currentPage-1)} , Grove St, Los Angeles`
     }))
   }, 1000)
+}
+
+function filterMethod(value, row) {
+  return value === row.director
+}
+function handleFilterChange(filters) {
+  this.filters = filters
 }
 onMounted(fetchData)
 </script>
