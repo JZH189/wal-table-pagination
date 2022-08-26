@@ -95,10 +95,14 @@ function fetchData() {
 }
 
 const filters = ref([])
-function filterMethod(value, row) {
+function filterMethod(value, row, column) {
+  console.log('value: ', value);
+  console.log('row: ', row);
+  console.log('column: ', column);
   return value === row.address
 }
 function handleFilterChange(filters) {
+  console.log('filters: ', filters);
   filters.value = filters
 }
 onMounted(fetchData)

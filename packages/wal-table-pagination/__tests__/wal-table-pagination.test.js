@@ -248,7 +248,7 @@ describe("wal-table-pagination.vue", () => {
     });
 
     it.skip("current-row-key", async () => {
-      //此项不通过
+      //此项不通过，官方的el-table组件也是不通过。。。
       const wrapper = mount({
         components: {
           ElTableColumn,
@@ -338,7 +338,7 @@ describe("wal-table-pagination.vue", () => {
       filter.parentNode.removeChild(filter);
     });
 
-    it("click filter", async () => {
+    it.skip("click filter", async () => {
       const btn = wrapper.find(".el-table__column-filter-trigger");
       btn.trigger("click");
       await doubleWait();
@@ -353,24 +353,20 @@ describe("wal-table-pagination.vue", () => {
         false
       );
       await doubleWait();
-      console.log("---------------------wrapper.vm: ", Object.keys(wrapper.vm));
-      // expect(wrapper.vm.filters["address"]).toEqual([
-
-      //   "No. 1 , Grove St, Los Angeles",
-      // ]);
-      // expect(
-      //   wrapper.findAll(".el-table__body-wrapper tbody tr").length
-      // ).toEqual(3);
-      // filter.parentNode.removeChild(filter);
+      expect(wrapper.vm.filters["address"]).toEqual([
+        "No. 1 , Grove St, Los Angeles",
+      ]);
+      expect(
+        wrapper.findAll(".el-table__body-wrapper tbody tr").length
+      ).toEqual(1);
+      filter.parentNode.removeChild(filter);
     });
 
     it.skip("clear filter", async () => {
       const btn = wrapper.find(".el-table__column-filter-trigger");
-
       btn.trigger("click");
       await doubleWait();
       const filter = document.body.querySelector(".el-table-filter");
-
       triggerEvent(filter.querySelector(".el-checkbox"), "click", true, false);
       // confrim button
       await doubleWait();
@@ -380,24 +376,24 @@ describe("wal-table-pagination.vue", () => {
         true,
         false
       );
-      await nextTick();
+      await doubleWait();
       expect(
         wrapper.findAll(".el-table__body-wrapper tbody tr").length
-      ).toEqual(3);
-      wrapper.vm.$refs.table.clearFilter();
-      await nextTick();
+      ).toEqual(1);
+      const table = wrapper.findComponent(".el-table")
+      table.componentVM.clearFilter()
+      await doubleWait();
       expect(
         wrapper.findAll(".el-table__body-wrapper tbody tr").length
-      ).toEqual(5);
+      ).toEqual(10);
       filter.parentNode.removeChild(filter);
     });
 
-    it.skip("click reset", async () => {
+    it("click reset", async () => {
       const btn = wrapper.find(".el-table__column-filter-trigger");
       btn.trigger("click");
       await doubleWait();
       const filter = document.body.querySelector(".el-table-filter");
-
       triggerEvent(filter.querySelector(".el-checkbox"), "click", true, false);
       await doubleWait();
       triggerEvent(
@@ -407,7 +403,7 @@ describe("wal-table-pagination.vue", () => {
         false
       );
       await doubleWait();
-      expect(wrapper.vm.filters["director"]).toEqual([]);
+      expect(wrapper.vm.filters["address"]).toEqual([]);
       expect([
         ...filter.querySelector(".el-table-filter__bottom button").classList,
       ]).toContain("is-disabled");
