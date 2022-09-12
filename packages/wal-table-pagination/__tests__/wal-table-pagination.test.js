@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { mount } from "@/../src/";
-// import { mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import WalTablePagination from "../src/wal-table-pagination.vue";
 import { ElTableColumn, ElCheckboxGroup, ElCheckbox, ElButton } from "element-plus";
 import { pagination, getTestData, doubleWait } from "./table-test-common";
