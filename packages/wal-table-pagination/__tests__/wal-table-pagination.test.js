@@ -1,9 +1,16 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { mount } from "@vue/test-utils";
+import { mount } from "@/../src/";
+// import { mount } from "@vue/test-utils";
 import WalTablePagination from "../src/wal-table-pagination.vue";
-import { ElTableColumn, ElCheckboxGroup, ElCheckbox } from "element-plus";
+import { ElTableColumn, ElCheckboxGroup, ElCheckbox, ElButton } from "element-plus";
 import { pagination, getTestData, doubleWait } from "./table-test-common";
 import triggerEvent from "./trigger-event";
+
+const assertElementsExistence = (wrapper, selectors, existence) => {
+  selectors.forEach((selector) => {
+    expect(wrapper.find(selector).exists()).toBe(existence)
+  })
+}
 
 describe("wal-table-pagination.vue", () => {
   describe.skip("render correct data", () => {
@@ -13,7 +20,7 @@ describe("wal-table-pagination.vue", () => {
         WalTablePagination,
       },
       template: `
-        <WalTablePagination :data="tableData" :total="total" :current-page="currentPage">
+        <wal-table-pagination :data="tableData" :total="total" :current-page="currentPage">
           <el-table-column label="Date" prop="date" />
           <el-table-column label="Name" prop="name" />
           <el-table-column label="Address">
@@ -21,7 +28,7 @@ describe("wal-table-pagination.vue", () => {
               <div>{{row.address}}</div>
             </template>
           </el-table-column>
-        </WalTablePagination>
+        </wal-table-pagination>
       `,
       created() {
         this.tableData = getTestData();
@@ -58,7 +65,7 @@ describe("wal-table-pagination.vue", () => {
         ElCheckbox,
       },
       template: `
-      <WalTablePagination :data="tableData" :total="3" :current-page="1">
+      <wal-table-pagination :data="tableData" :total="3" :current-page="1">
         <el-table-column label="复选框">
           <template #default="{ row }">
             <el-checkbox-group v-model="row.checkList">
@@ -67,7 +74,7 @@ describe("wal-table-pagination.vue", () => {
             </el-checkbox-group>
           </template>
         </el-table-column>
-      </WalTablePagination>
+      </wal-table-pagination>
       `,
       data() {
         return {
@@ -109,11 +116,11 @@ describe("wal-table-pagination.vue", () => {
           WalTablePagination,
         },
         template: `
-            <WalTablePagination :data="tableData" :total="3" :current-page="1" ${props}>
+            <wal-table-pagination :data="tableData" :total="3" :current-page="1" ${props}>
               <el-table-column prop="date" label="date" />
               <el-table-column prop="name" label="name" />
               <el-table-column prop="Address" label="Address" />
-            </WalTablePagination>
+            </wal-table-pagination>
           `,
         created() {
           this.tableData = getTestData();
@@ -281,7 +288,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
   });
-  describe("filter", async () => {
+  describe.skip("filter", async () => {
     let wrapper = null;
     beforeEach(async () => {
       wrapper = mount({
@@ -290,7 +297,7 @@ describe("wal-table-pagination.vue", () => {
           WalTablePagination,
         },
         template: `
-        <WalTablePagination :total="200" :current-page="1" :data="testData" @filter-change="handleFilterChange">
+        <wal-table-pagination :total="200" :current-page="1" :data="testData" @filter-change="handleFilterChange">
           <el-table-column prop="date" label="Date" />
           <el-table-column prop="name" label="Name" />
           <el-table-column
@@ -304,7 +311,7 @@ describe("wal-table-pagination.vue", () => {
             :filter-method="filterMethod"
             min-width="300px"
             label="Address" />
-        <WalTablePagination />
+        </wal-table-pagination>
         `,
         created() {
           this.testData = getTestData();
@@ -329,7 +336,7 @@ describe("wal-table-pagination.vue", () => {
       ).not.toBeUndefined();
     });
 
-    it.skip("click dropdown", async () => {
+    it("click dropdown", async () => {
       const btn = wrapper.find(".el-table__column-filter-trigger");
       btn.trigger("click");
       await doubleWait();
@@ -389,7 +396,7 @@ describe("wal-table-pagination.vue", () => {
       filter.parentNode.removeChild(filter);
     });
 
-    it("click reset", async () => {
+    it.skip("click reset", async () => {
       const btn = wrapper.find(".el-table__column-filter-trigger");
       btn.trigger("click");
       await doubleWait();
@@ -411,4 +418,114 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
   });
+  describe('events', () => {
+    const createTable = function (prop = '') {
+      return mount({
+        components: {
+          WalTablePagination,
+          ElTableColumn,
+        },
+        template: `
+        <wal-table-pagination :total="200" :current-page="1" :data="testData" @${prop}="handleEvent">
+          <el-table-column type="selection" />  
+          <el-table-column prop="date" label="Date" />
+          <el-table-column prop="name" label="Name" />
+          <el-table-column prop="address" label="Address" />
+        </wal-table-pagination>
+        `,
+        methods: {
+          handleEvent(...val) {
+            this.result = val
+          },
+        },
+        data() {
+          return { result: null, testData: getTestData() }
+        },
+      })
+    }
+    it('select', async () => {
+      const wrapper = createTable('select')
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[1].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.result.length).toEqual(2)
+      expect(wrapper.vm.result[1]).toHaveProperty('address')
+      expect(wrapper.vm.result[1]['address']).toEqual(getTestData()[0].address)
+      wrapper.unmount()
+    })
+
+    it('selection-change', async () => {
+      const wrapper = createTable('selection-change')
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[1].trigger('click')
+      expect(wrapper.vm.result.length).toEqual(1)
+      wrapper.unmount()
+    })
+
+    it('cell-mouse-enter', async () => {
+      const wrapper = createTable('cell-mouse-enter')
+      await doubleWait()
+      const cell = wrapper.findAll('.el-table__body .cell')[0] 
+      triggerEvent(cell.element.parentElement, 'mouseenter')
+      expect(wrapper.vm.result.length).toEqual(4) 
+      expect(wrapper.vm.result[0]).toHaveProperty('address')
+      expect(wrapper.vm.result[0]['address']).toEqual(getTestData()[0].address)
+      wrapper.unmount()
+    })
+
+    it('cell-mouse-leave', async () => {
+      const wrapper = createTable('cell-mouse-leave')
+      await doubleWait()
+      const cell = wrapper.findAll('.el-table__body .cell')[0]
+      //依次触发mouseenter、mouseleave
+      triggerEvent(cell.element.parentElement, 'mouseenter')
+      triggerEvent(cell.element.parentElement, 'mouseleave')
+      expect(wrapper.vm.result.length).toEqual(4) // row, column, cell, event
+      expect(wrapper.vm.result[0]).toHaveProperty('address')
+      expect(wrapper.vm.result[0]['address']).toEqual(getTestData()[0].address)
+      wrapper.unmount()
+    })
+
+    it('row-click', async () => {
+      const wrapper = createTable('row-click')
+      await doubleWait()
+      const cell = wrapper.findAll('.el-table__body .cell')[2] // first row
+      triggerEvent(cell.element.parentElement.parentElement, 'click')
+      expect(wrapper.vm.result.length).toEqual(3) // row, event, column
+      expect(wrapper.vm.result[0]).toHaveProperty('name')
+      expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
+      wrapper.unmount()
+    })
+
+    it('row-dblclick', async () => {
+      const wrapper = createTable('row-dblclick')
+      await doubleWait()
+      const cell = wrapper.findAll('.el-table__body .cell')[2]
+      triggerEvent(cell.element.parentElement.parentElement, 'dblclick')
+      expect(wrapper.vm.result.length).toEqual(3) // row, event, column
+      expect(wrapper.vm.result[0]).toHaveProperty('name')
+      expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
+      wrapper.unmount()
+    })
+
+    it('header-click', async () => {
+      const wrapper = createTable('header-click')
+      await doubleWait()
+      const cell = wrapper.findAll('.el-table__header th')[1] // header[prop='name']
+      cell.trigger('click')
+      expect(wrapper.vm.result.length).toEqual(2) // column, event
+      expect(wrapper.vm.result[0]['name']).toBeUndefined()
+      wrapper.unmount()
+    })
+
+    it('size-change', async () => {
+      const wrapper = createTable('size-change')
+      await doubleWait()
+      wrapper.find('.el-select').trigger('click')
+      await doubleWait()
+      const selectPopper = document.querySelector('.el-select__popper')
+      console.log('selectPopper: ', selectPopper.innerHTML());
+      // expect(selectPopper.exists()).toBe(true)
+    })
+  })
 });

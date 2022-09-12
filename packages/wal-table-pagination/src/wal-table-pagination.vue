@@ -262,59 +262,59 @@ function nextClick(val) {
   emit('next-click', val)
 }
 // table 事件emit
-function select(val) {
-  emit('select', val)
+function select(...agrs) {
+  emit('select', ...agrs)
 }
-function selectAll(val) {
-  emit('select-all', val)
+function selectAll(...agrs) {
+  emit('select-all', ...agrs)
 }
-function selectionChange(val) {
-  emit('selection-change', val)
+function selectionChange(...agrs) {
+  emit('selection-change', ...agrs)
 }
-function cellMouseEnter(val) {
-  emit('cell-mouse-enter', val)
+function cellMouseEnter(...agrs) {
+  emit('cell-mouse-enter', ...agrs)
 }
-function cellMouseLeave(val) {
-  emit('cell-mouse-leave', val)
+function cellMouseLeave(...agrs) {
+  emit('cell-mouse-leave', ...agrs)
 }
-function cellClick(val) {
-  emit('cell-click', val)
+function cellClick(...agrs) {
+  emit('cell-click', ...agrs)
 }
-function cellDblclick(val) {
-  emit('cell-dblclick', val)
+function cellDblclick(...agrs) {
+  emit('cell-dblclick', ...agrs)
 }
-function cellContextmenu(val) {
-  emit('cell-contextmenu', val)
+function cellContextmenu(...agrs) {
+  emit('cell-contextmenu', ...agrs)
 }
-function rowClick(val) {
-  emit('row-click', val)
+function rowClick(...agrs) {
+  emit('row-click', ...agrs)
 }
-function rowContextmenu(val) {
-  emit('row-contextmenu', val)
+function rowContextmenu(...agrs) {
+  emit('row-contextmenu', ...agrs)
 }
-function rowDblclick(val) {
-  emit('row-dblclick', val)
+function rowDblclick(...agrs) {
+  emit('row-dblclick', ...agrs)
 }
-function headerClick(val) {
-  emit('header-click', val)
+function headerClick(...agrs) {
+  emit('header-click', ...agrs)
 }
-function headerContextmenu(val) {
-  emit('header-contextmenu', val)
+function headerContextmenu(...agrs) {
+  emit('header-contextmenu', ...agrs)
 }
-function sortChange(val) {
-  emit('sort-change', val)
+function sortChange(...agrs) {
+  emit('sort-change', ...agrs)
 }
-function filterChange(val) {
-  emit('filter-change', val)
+function filterChange(...agrs) {
+  emit('filter-change', ...agrs)
 }
-function tableCurrentChange(val) {
-  emit('table-current-change', val)
+function tableCurrentChange(...agrs) {
+  emit('table-current-change', ...agrs)
 }
-function headerDragend(val) {
-  emit('header-dragend', val)
+function headerDragend(...agrs) {
+  emit('header-dragend', ...agrs)
 }
-function expandChange(val) {
-  emit('expand-change', val)
+function expandChange(...agrs) {
+  emit('expand-change', ...agrs)
 }
 //暴露组件的方法
 const table = ref()
