@@ -39,7 +39,7 @@
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/compiler-dom": "^3.2.38",
     "@vue/test-utils": "^2.0.2",
-    "jsdom": "^16.4.0",
+    "jsdom": "16.4.0",
     "pretty": "^2.0.0",
     "vite": "^3.0.7",
     "vitest": "^0.20.0"
