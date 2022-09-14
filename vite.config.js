@@ -1,5 +1,8 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
@@ -27,16 +30,22 @@ export default defineConfig({
     },
   },
   test: {
-    // 启用类似 jest 的全局测试 API,这样就无需在每个test文件中单独引入测试相关api
-    global: true,
     // 使用 jsdom 模拟 DOM
     // 这需要你安装 jsdom 作为对等依赖（peer dependency）
-    environment: 'jsdom',
+    environment: "jsdom",
   },
   resolve: {
     alias: {
       "@": resolve(__dirname, "./packages"),
     },
   },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
 });

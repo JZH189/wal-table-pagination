@@ -6,6 +6,7 @@
   <WalTablePagination
     style="width:800px;margin: 20px auto 0px;"
     ref="waltablePagination"
+    v-loading="loading"
     :border="true"
     :max-height="500"
     :data="tableData"
@@ -39,7 +40,6 @@
 </template>
 
 <script setup>
-import { ElButton, ElTableColumn, ElTable } from "element-plus";
 import WalTablePagination from '../packages/wal-table-pagination/src/wal-table-pagination.vue'
 import { reactive, ref, onMounted} from 'vue'
 //WaltablePagination实例
@@ -83,9 +83,12 @@ function toggleSelection(rows) {
     table?.clearSelection()
   }
 }
+const loading = ref(false)
 // 数据源
 function fetchData() {
+  loading.value = true
   setTimeout(() => {
+    loading.value = false
     tableData.value = Array.from(new Array(pagination.pageSize), (item, index) => ({
       date: '2022-07-24',
       name: `victor`,

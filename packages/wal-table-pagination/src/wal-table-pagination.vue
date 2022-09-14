@@ -22,7 +22,7 @@
       @header-dragend="headerDragend"
       @expand-change="expandChange"
     >
-      <slots :key="key" />
+      <column :key="key" />
     </el-table>
     <el-pagination 
       v-bind="paginationAttrs" 
@@ -223,7 +223,7 @@ const finalSlot = computed(() => {
 const key = ref(0)
 watch(finalSlot, () => (key.value += 1))
 //向el-table传递插槽
-const slots = () => [tableSlots.value.tableLeft, finalSlot.value, tableSlots.value.tableRight]
+const column = () => [tableSlots.value.tableLeft, finalSlot.value, tableSlots.value.tableRight]
 const emit = defineEmits([
   "select",
   "select-all",

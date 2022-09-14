@@ -1,4 +1,4 @@
-import WalTablePagination from "./src/WalTablePagination.vue";
+import WalTablePagination from "./src/wal-table-pagination.vue";
 WalTablePagination.install = function (app) {
   app.component(WalTablePagination.name, WalTablePagination);
 };
