@@ -1,12 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
 import WalTablePagination from "../src/wal-table-pagination.vue";
-import {
-  ElTableColumn,
-  ElCheckboxGroup,
-  ElCheckbox,
-  ElButton,
-} from "element-plus";
+import { ElTableColumn, ElCheckboxGroup, ElCheckbox } from "element-plus";
 import { pagination, getTestData, doubleWait } from "./table-test-common";
 import triggerEvent from "./trigger-event";
 
@@ -17,7 +12,7 @@ const assertElementsExists = (wrapper, selectors, exists) => {
 };
 
 describe("wal-table-pagination.vue", () => {
-  describe.skip("render correct data", () => {
+  describe("render correct data", () => {
     const wrapper = mount({
       components: {
         ElTableColumn,
@@ -66,7 +61,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
   });
-  it.skip("custom template", async () => {
+  it("custom template", async () => {
     const wrapper = mount({
       components: {
         WalTablePagination,
@@ -118,7 +113,7 @@ describe("wal-table-pagination.vue", () => {
     );
     expect(checkSelect.length).toBe(3);
   });
-  describe.skip("table attributes", () => {
+  describe("table attributes", () => {
     const createTable = function (props, opts) {
       return mount({
         components: {
@@ -139,7 +134,7 @@ describe("wal-table-pagination.vue", () => {
       });
     };
 
-    it.skip("height", async () => {
+    it("height", async () => {
       const wrapper = createTable('height="250"');
       await doubleWait();
       expect(wrapper.find(".el-table").attributes("style")).toContain(
@@ -148,7 +143,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("height as string", async () => {
+    it("height as string", async () => {
       const wrapper = createTable('height="100px"');
       await doubleWait();
       expect(wrapper.find(".el-table").attributes("style")).toContain(
@@ -157,7 +152,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("maxHeight", async () => {
+    it("maxHeight", async () => {
       const wrapper = createTable('max-height="134"');
       await doubleWait();
       expect(
@@ -166,7 +161,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("maxHeight uses vh units", async () => {
+    it("maxHeight uses vh units", async () => {
       const wrapper = createTable('max-height="60vh"');
       await doubleWait();
       const tableWraper = wrapper.find(".el-table");
@@ -176,7 +171,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("stripe", async () => {
+    it("stripe", async () => {
       const wrapper = createTable("stripe");
       await doubleWait();
       expect(wrapper.find(".el-table").classes()).toContain(
@@ -185,14 +180,14 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("border", async () => {
+    it("border", async () => {
       const wrapper = createTable("border");
       await doubleWait();
       expect(wrapper.find(".el-table").classes()).toContain("el-table--border");
       wrapper.unmount();
     });
 
-    it.skip("fit", async () => {
+    it("fit", async () => {
       const wrapper = createTable(':fit="false"');
       await doubleWait();
       expect(wrapper.find(".el-table").classes()).not.toContain(
@@ -201,7 +196,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("show-header", async () => {
+    it("show-header", async () => {
       const wrapper = createTable(':show-header="false"');
       await doubleWait();
       expect(
@@ -210,7 +205,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("tableRowClassName", async () => {
+    it("tableRowClassName", async () => {
       const wrapper = createTable(':row-class-name="tableRowClassName"', {
         methods: {
           tableRowClassName({ rowIndex }) {
@@ -231,7 +226,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("tableRowStyle[Object]", async () => {
+    it("tableRowStyle[Object]", async () => {
       const wrapper = createTable(":row-style=\"{ height: '60px' }\"", {});
       await doubleWait();
       expect(
@@ -240,7 +235,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("tableRowStyle[Function]", async () => {
+    it("tableRowStyle[Function]", async () => {
       const wrapper = createTable(':row-style="tableRowStyle"', {
         methods: {
           tableRowStyle({ rowIndex }) {
@@ -264,7 +259,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
 
-    it.skip("current-row-key", async () => {
+    it.fails("current-row-key", async () => {
       //此项不通过，官方的el-table组件也是不通过。。。
       const wrapper = mount({
         components: {
@@ -298,7 +293,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
   });
-  describe.skip("filter", async () => {
+  describe("filter", async () => {
     let wrapper = null;
     beforeEach(async () => {
       wrapper = mount({
@@ -340,7 +335,7 @@ describe("wal-table-pagination.vue", () => {
 
     afterEach(() => wrapper.unmount());
 
-    it.skip("render", () => {
+    it("render", () => {
       expect(
         wrapper.find(".el-table__column-filter-trigger")
       ).not.toBeUndefined();
@@ -355,7 +350,7 @@ describe("wal-table-pagination.vue", () => {
       filter.parentNode.removeChild(filter);
     });
 
-    it.skip("click filter", async () => {
+    it("click filter", async () => {
       const btn = wrapper.find(".el-table__column-filter-trigger");
       btn.trigger("click");
       await doubleWait();
@@ -379,7 +374,7 @@ describe("wal-table-pagination.vue", () => {
       filter.parentNode.removeChild(filter);
     });
 
-    it.skip("clear filter", async () => {
+    it("clear filter", async () => {
       const btn = wrapper.find(".el-table__column-filter-trigger");
       btn.trigger("click");
       await doubleWait();
@@ -406,7 +401,7 @@ describe("wal-table-pagination.vue", () => {
       filter.parentNode.removeChild(filter);
     });
 
-    it.skip("click reset", async () => {
+    it("click reset", async () => {
       const btn = wrapper.find(".el-table__column-filter-trigger");
       btn.trigger("click");
       await doubleWait();
@@ -428,7 +423,7 @@ describe("wal-table-pagination.vue", () => {
       wrapper.unmount();
     });
   });
-  describe.skip("table events", () => {
+  describe("table events", () => {
     const createTable = function (prop = "") {
       return mount({
         components: {
